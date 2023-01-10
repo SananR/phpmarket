@@ -6,19 +6,18 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Store extends Model
+class StoreProduct extends Model
 {
     use HasFactory;
 
     protected $fillable = [
+        'store_id',
         'name',
-        'address',
-        'longitude',
-        'latitude',
+        'bin',
+        'quantity'
     ];
 
-    public function admins() {
-        return $this->belongsToMany(User::class, StoreAdmin::class, "user_id", "store_id");
+    public function store() {
+        return $this->belongsTo(Store::class);
     }
-
 }
