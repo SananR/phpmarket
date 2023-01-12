@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\StoreAdmin;
+use App\Models\StoreUser;
 use Illuminate\Http\Request;
 
-class StoreAdminController extends Controller
+class StoreUserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class StoreAdminController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\StoreAdmin  $storeAdmin
+     * @param  \App\Models\StoreUser  $storeAdmin
      * @return \Illuminate\Http\Response
      */
-    public function show(StoreAdmin $storeAdmin)
+    public function show(StoreUser $storeAdmin)
     {
         //
     }
@@ -52,10 +52,10 @@ class StoreAdminController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\StoreAdmin  $storeAdmin
+     * @param  \App\Models\StoreUser  $storeAdmin
      * @return \Illuminate\Http\Response
      */
-    public function edit(StoreAdmin $storeAdmin)
+    public function edit(StoreUser $storeAdmin)
     {
         //
     }
@@ -64,10 +64,10 @@ class StoreAdminController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\StoreAdmin  $storeAdmin
+     * @param  \App\Models\StoreUser  $storeAdmin
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, StoreAdmin $storeAdmin)
+    public function update(Request $request, StoreUser $storeAdmin)
     {
         //
     }
@@ -75,10 +75,10 @@ class StoreAdminController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\StoreAdmin  $storeAdmin
+     * @param  \App\Models\StoreUser  $storeAdmin
      * @return \Illuminate\Http\Response
      */
-    public function destroy(StoreAdmin $storeAdmin)
+    public function destroy(StoreUser $storeAdmin)
     {
         //
     }

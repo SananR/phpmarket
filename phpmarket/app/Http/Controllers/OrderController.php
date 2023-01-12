@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OrderCreateRequest;
+use App\Jobs\CreateOrderJob;
 use App\Models\StoreOrder;
 use Illuminate\Http\Request;
 
@@ -17,15 +19,6 @@ class OrderController extends Controller
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -33,9 +26,10 @@ class OrderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(OrderCreateRequest $request)
     {
-        //
+        $request->validated($request->all());
+        CreateOrderJob::dispatch();
     }
 
     /**
@@ -45,17 +39,6 @@ class OrderController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(StoreOrder $storeOrder)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\StoreOrder  $storeOrder
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(StoreOrder $storeOrder)
     {
         //
     }

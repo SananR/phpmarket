@@ -75,7 +75,7 @@ class User extends Authenticatable
     ];
 
     public function stores() {
-        return $this->belongsToMany(Store::class, StoreAdmin::class, "store_id", "user_id");
+        return $this->belongsToMany(Store::class, StoreUser::class, "store_id", "user_id");
     }
 
     public function isOfType($type): bool {

@@ -44,7 +44,7 @@ class Store extends Model
     }
 
     public function admins() {
-        return $this->belongsToMany(User::class, StoreAdmin::class, "user_id", "store_id");
+        return $this->belongsToMany(User::class, StoreUser::class, "user_id", "store_id");
     }
     public function products() {
         return $this->hasMany(Product::class, 'store_id');

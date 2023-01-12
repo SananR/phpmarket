@@ -1,7 +1,6 @@
 <?php
 
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\StoreAdminController;
+use App\Http\Controllers\StoreUserController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use Laravel\Fortify\Http\Controllers\RegisteredUserController;
@@ -30,7 +29,12 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
 
 //Protected
 Route::group(['middleware'=>['auth:sanctum', 'api']], function() {
-    Route::apiResource('/store/admin', StoreAdminController::class);
+    Route::group(['middleware'=>['usertype:admin']], function() {
+        Route::post('/store/admin', [StoreUserController::class,'store'])->middleware('usertype:admin');
+        Route::put('/store/admin', [StoreUserController::class, 'update'])->middleware('usertype:admin');
+        Route::patch('/store/admin', [StoreUserController::class, 'update'])->middleware('usertype:admin');
+        Route::delete('/store/admin', [StoreUserController::class, 'delete'])->middleware('usertype:admin');
+    });
     Route::apiResource('/store', \App\Http\Controllers\StoreController::class);
     Route::get('/product/{id}', [\App\Http\Controllers\ProductController::class, 'index']);
     Route::put('/product/{id}', [\App\Http\Controllers\ProductController::class, 'update']);
