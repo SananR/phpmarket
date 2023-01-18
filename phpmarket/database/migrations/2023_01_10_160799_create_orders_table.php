@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->string('payment_status');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

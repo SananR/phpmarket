@@ -28,7 +28,7 @@ class StoreController extends Controller
     public function index()
     {
         return StoreResource::collection(
-            $this->service->getAllStores()
+            $this->service->getAll()
         );
     }
 

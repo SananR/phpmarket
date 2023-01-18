@@ -8,15 +8,18 @@ use App\Jobs\CreateOrderJob;
 use App\Jobs\OrderProductJob;
 use App\Models\Order;
 use App\Services\OrderService;
+use App\Services\ProductService;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
 
     protected OrderService $orderService;
+    protected ProductService $productService;
 
-    public function __construct(OrderService $orderService) {
+    public function __construct(OrderService $orderService, ProductService $productService) {
         $this->orderService = $orderService;
+        $this->productService = $productService;
     }
 
     /**
@@ -39,12 +42,12 @@ class OrderController extends Controller
     public function store(OrderCreateRequest $request)
     {
         $request->validated($request->all());
-        $this->dispatch(new CreateOrderJob($this->orderService, $request->user_id, $request->products, $request->payment_status));
+        $this->dispatch(new CreateOrderJob($this->orderService, $this->productService, $request->user_id, $request->products, "PENDING"));
     }
 
     public function product(OrderProductRequest $request) {
         $request->validated($request->all());
-        $this->dispatch(new OrderProductJob($this->orderService, $request->order_id, $request->product_id, $request->quantity));
+        $this->dispatch(new OrderProductJob($this->orderService, $this->productService, $request->order_id, $request->product_id, $request->quantity));
     }
 
     /**

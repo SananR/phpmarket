@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Models\StoreUser
@@ -14,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  */
 class StoreUser extends Pivot
 {
+    use SoftDeletes;
     public $incrementing = true;
 
 }

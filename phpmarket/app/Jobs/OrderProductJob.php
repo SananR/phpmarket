@@ -3,25 +3,31 @@
 namespace App\Jobs;
 
 use App\Services\OrderService;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
+use App\Services\ProductService;
 
-class OrderProductJob implements ShouldQueue
+class OrderProductJob extends BaseJob
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $order_id, $product_id, $quantity;
     protected OrderService $orderService;
+    protected ProductService $productService;
 
-    public function __construct(OrderService $orderService, $order_id, $product_id, $quantity)
+    public function __construct(OrderService $orderService, ProductService $productService, $order_id, $product_id, $quantity)
     {
         $this->orderService = $orderService;
+        $this->productService = $productService;
         $this->order_id = $order_id;
         $this->product_id = $product_id;
         $this->quantity = $quantity;
+        parent::__construct();
+    }
+
+    public function validate():bool {
+        if (!$this->orderService->exists($this->order_id)) return false;
+        if (!$this->productService->exists($this->product_id)) return false;
+        //Not enough product
+        if ($this->productService->getProduct($this->product_id)->quantity < $this->quantity) return false;
+        return true;
     }
 
     /**

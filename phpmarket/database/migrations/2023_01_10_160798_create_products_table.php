@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('bin');
             $table->integer('quantity');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

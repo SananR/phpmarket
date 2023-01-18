@@ -3,27 +3,23 @@
 namespace App\Jobs;
 
 use App\Services\OrderService;
-use App\Jobs\OrderProductJob;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
-use function PHPUnit\Framework\isEmpty;
+use App\Services\ProductService;
 
-class CreateOrderJob implements ShouldQueue
+class CreateOrderJob extends BaseJob
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $user_id, $products, $payment_status;
     protected OrderService $orderService;
+    protected ProductService $productService;
 
-    public function __construct(OrderService $orderService, $user_id, $products, $payment_status)
+    public function __construct(OrderService $orderService, ProductService $productService, $user_id, $products, $payment_status)
     {
+        $this->productService = $productService;
         $this->orderService = $orderService;
         $this->user_id = $user_id;
         $this->products = $products;
         $this->payment_status = $payment_status;
+        parent::__construct();
     }
 
     /**
@@ -38,7 +34,17 @@ class CreateOrderJob implements ShouldQueue
         //Add the products
         if (empty($this->products)) return;
         foreach ($this->products as $id) {
-            OrderProductJob::dispatch($this->orderService, $order->id, $id, 1);
+            OrderProductJob::dispatch($this->orderService, $this->productService, $order->id, $id, 1);
         }
+    }
+
+    public function validate()
+    {
+        //Validate products
+        foreach ($this->products as $id) {
+           if (!$this->productService->exists($id)) return false;
+        }
+        if (strcmp($this->payment_status, "PENDING") != 0 && strcmp($this->payment_status, "COMPLETED") != 0) return false;
+        return true;
     }
 }

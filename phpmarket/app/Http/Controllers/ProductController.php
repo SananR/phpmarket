@@ -36,7 +36,7 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        if (!$this->productService->productExists($id)) return $this->notFoundError();
+        if (!$this->productService->exists($id)) return $this->notFoundError();
         else return new ProductResource($this->productService->getProduct($id));
     }
 
@@ -52,7 +52,7 @@ class ProductController extends Controller
     public function update(ProductUpdateRequest $request, $id)
     {
         $request->validated($request->all());
-        if (!$this->productService->productExists($id)) return $this->notFoundError();
+        if (!$this->productService->exists($id)) return $this->notFoundError();
         $product = $this->productService->getProduct($id);
         if (!$this->hasAuth($product->store_id) && !Auth::user()->isOfType('admin')) return $this->notFoundError();
         $product = $this->productService->updateProduct($id, $request);

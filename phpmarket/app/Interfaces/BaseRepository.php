@@ -17,6 +17,9 @@ abstract class BaseRepository
     protected function __construct($modelORM) {
         $this->modelORM = $modelORM;
     }
+    public function exists($id) {
+        return $this->modelORM::exists($id);
+    }
     public function where($condition, $value) {
         $query = $this->modelORM::where($condition, $value);
         return $query->get();

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('store_id')->references('id')->on('stores')->cascadeOnDelete();
             $table->string('role');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
