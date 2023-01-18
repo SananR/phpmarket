@@ -15,7 +15,12 @@ class StoreService
         $this->storeRepository = $storeRepository;
         $this->userRepository = $userRepository;
     }
-
+    public function storeExists($id) {
+        return !is_null($this->storeRepository->getById($id));
+    }
+    public function getStore($id) {
+        return $this->storeRepository->getById($id);
+    }
     public function getAllStores() {
         return $this->storeRepository->getAll();
     }

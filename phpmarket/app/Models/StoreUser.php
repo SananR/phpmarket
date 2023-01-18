@@ -14,6 +14,6 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  */
 class StoreUser extends Pivot
 {
-
+    public $incrementing = true;
 
 }

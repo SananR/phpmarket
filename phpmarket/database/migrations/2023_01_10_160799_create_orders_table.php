@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete();
-            $table->foreignId('store_id')->references('id')->on('stores')->cascadeOnDelete();
             $table->string('payment_status');
             $table->timestamps();
         });

@@ -36,11 +36,17 @@ Route::group(['middleware'=>['auth:sanctum', 'api']], function() {
         Route::delete('/store/admin', [StoreUserController::class, 'delete'])->middleware('usertype:admin');
     });
     Route::apiResource('/store', \App\Http\Controllers\StoreController::class);
-    Route::get('/product/{id}', [\App\Http\Controllers\ProductController::class, 'index']);
+    /*
+     * Store Products
+     */
+    Route::get('/product/{id}', [\App\Http\Controllers\ProductController::class, 'show']);
     Route::put('/product/{id}', [\App\Http\Controllers\ProductController::class, 'update']);
     Route::patch('/product/{id}', [\App\Http\Controllers\ProductController::class, 'update']);
     Route::post('/product', [\App\Http\Controllers\ProductController::class, 'store']);
     Route::delete('/product', [\App\Http\Controllers\ProductController::class, 'delete']);
+    /*
+     * Orders
+     */
     Route::apiResource('/order', \App\Http\Controllers\OrderController::class);
-    Route::apiResource('/order-product', \App\Http\Controllers\OrderProductController::class);
+    Route::post('/order/product', [\App\Http\Controllers\OrderController::class, 'product']);
 });

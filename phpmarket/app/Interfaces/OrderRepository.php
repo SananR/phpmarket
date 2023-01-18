@@ -4,7 +4,20 @@ namespace App\Interfaces;
 
 abstract class OrderRepository extends BaseRepository
 {
-    public abstract function create($user_id, $payment_status);
-    public abstract function updatePaymentStatus($id, $status);
-    public abstract function delete($id);
+    public function create($user_id, $payment_status) {
+        return parent::create([
+            'user_id' => $user_id,
+            'products'=>[],
+            'payment_status' => $payment_status,
+        ]);
+    }
+
+    public function updatePaymentPending($id) {
+        return parent::update($id, ['payment_status'=>'PENDING']);
+    }
+
+    public function updatePaymentCompleted($id, $status) {
+        return parent::update($id, ['payment_status'=>'COMPLETED']);
+    }
+
 }

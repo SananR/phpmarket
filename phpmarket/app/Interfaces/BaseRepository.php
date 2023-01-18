@@ -17,11 +17,18 @@ abstract class BaseRepository
     protected function __construct($modelORM) {
         $this->modelORM = $modelORM;
     }
+    public function getWhere($conditions) {
+        $query = $this->modelORM;
+        foreach ($conditions as $key => $value) {
+            $query = $query->where($key, $value);
+        }
+        return $query->all();
+    }
     public function getAll() {
         return $this->modelORM::all();
     }
     public function getById($id) {
-        return $this->modelORM::findOrFail(intval($id));
+        return $this->modelORM::find(intval($id));
     }
     public function delete($id) {
         $this->modelORM::destroy($id);

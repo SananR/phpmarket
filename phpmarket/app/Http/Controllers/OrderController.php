@@ -3,12 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\OrderCreateRequest;
+use App\Http\Requests\OrderProductRequest;
 use App\Jobs\CreateOrderJob;
-use App\Models\StoreOrder;
+use App\Jobs\CreateUpdateOrderProductJob;
+use App\Models\Order;
+use App\Services\OrderService;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
+
+    protected OrderService $orderService;
+
+    public function __construct(OrderService $orderService) {
+        $this->orderService = $orderService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -29,16 +39,21 @@ class OrderController extends Controller
     public function store(OrderCreateRequest $request)
     {
         $request->validated($request->all());
-        CreateOrderJob::dispatch();
+        $this->dispatch(new CreateOrderJob($this->orderService, $request->user_id, $request->products, $request->payment_status));
+    }
+
+    public function product(OrderProductRequest $request) {
+        $request->validated($request->all());
+        $this->dispatch(new CreateUpdateOrderProductJob($this->orderService, $request->order_id, $request->product_id, $request->quantity));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\StoreOrder  $storeOrder
+     * @param  \App\Models\Order  $storeOrder
      * @return \Illuminate\Http\Response
      */
-    public function show(StoreOrder $storeOrder)
+    public function show(Order $storeOrder)
     {
         //
     }
@@ -47,10 +62,10 @@ class OrderController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\StoreOrder  $storeOrder
+     * @param  \App\Models\Order  $storeOrder
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, StoreOrder $storeOrder)
+    public function update(Request $request, Order $storeOrder)
     {
         //
     }
@@ -58,10 +73,10 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\StoreOrder  $storeOrder
+     * @param  \App\Models\Order  $storeOrder
      * @return \Illuminate\Http\Response
      */
-    public function destroy(StoreOrder $storeOrder)
+    public function destroy(Order $storeOrder)
     {
         //
     }

@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
-class OrderCreateRequest extends FormRequest
+class OrderProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +25,9 @@ class OrderCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id'=>['required','max:30', 'exists:users,id'],
-            'products'=>['present', 'array', 'min:1'],
-            'products.*'=>['sometimes','numeric', 'exists:products,id'],
+            'order_id'=>['required', 'exists:orders,id'],
+            'product_id'=>['required', 'exists:products,id'],
+            'quantity'=>['required','digits_between:0,999999'],
         ];
     }
 }

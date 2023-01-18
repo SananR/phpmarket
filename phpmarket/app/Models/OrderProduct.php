@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * App\Models\OrderProduct
  *
- * @property-read \App\Models\StoreOrder|null $order
+ * @property-read \App\Models\Order|null $order
  * @property-read \App\Models\Store|null $store
  * @method static \Illuminate\Database\Eloquent\Builder|OrderProduct newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|OrderProduct newQuery()
@@ -21,15 +21,15 @@ class OrderProduct extends Model
 
     protected $fillable = [
         'order_id',
-        'store_id',
-        'payment_status'
+        'product_id',
+        'quantity'
     ];
 
-    public function store() {
-        return $this->hasOne(Store::class);
+    public function product() {
+        return $this->hasOne(Product::class);
     }
     public function order() {
-        return $this->hasOne(StoreOrder::class);
+        return $this->belongsTo(Order::class);
     }
 
 }

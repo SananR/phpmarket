@@ -2,18 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProductRequest;
+use App\Http\Requests\ProductCreateRequest;
+use App\Http\Requests\ProductUpdateRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Models\Store;
+use App\Services\StoreService;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Services\ProductService;
 
 class ProductController extends Controller
 {
 
     use HttpResponses;
+    protected ProductService $productService;
+    protected StoreService $storeService;
+
+    public function __construct(ProductService $productService, StoreService $storeService) {
+        $this->productService = $productService;
+        $this->storeService = $storeService;
+    }
 
     private function hasAuth($store_id) {
         foreach (Auth::user()->stores as $store) {
@@ -24,58 +34,29 @@ class ProductController extends Controller
     }
 
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
-    public function index($id)
+    public function show($id)
     {
-        $product = Product::where('id',$id);
-        if (!$product->exists()) return $this->notFoundError();
-        $store = Store::where('id', $product->store_id);
-        if (!$store) return $this->notFoundError();
-        if (!$store->first()->isAdmin(Auth::user()->id)) return $this->notFoundError();
-        if (!$store->first()->isAdmin(Auth::user()->id) && !Auth::user()->isOfType('admin')) return $this->authError();
-        else return ProductResource::collection(
-            $product->first()
-        );
+        if (!$this->productService->productExists($id)) return $this->notFoundError();
+        else return new ProductResource($this->productService->getProduct($id));
     }
 
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return ProductResource
-     */
-    public function store(ProductRequest $request)
+    public function store(ProductCreateRequest $request)
     {
         $request->validated($request->all());
-        if (!$this->hasAuth($request->store_id) && !Auth::user()->isOfType('admin')) return $this->authError();
-        if (!Store::where('id', $request->store_id)->exists()) return $this->notFoundError();
-        $product = Product::create([
-            'store_id'=>$request->store_id,
-            'name'=>$request->name,
-            'bin'=>$request->bin,
-            'quantity'=>$request->quantity
-        ]);
+        if (!$this->hasAuth($request->store_id) && !Auth::user()->isOfType('admin')) return $this->notFoundError();
+        $product = $this->productService->createProduct($request->store_id, $request->name, $request->bin, $request->quantity);
         return new ProductResource($product);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Product $product)
+    public function update(ProductUpdateRequest $request, $id)
     {
-        if ($this->hasAuth($product->store_id) || Auth::user()->isOfType('admin')) {
-            $product->update($request->all());
-            return new ProductResource($product);
-        } else return $this->authError();
+        $request->validated($request->all());
+        if (!$this->productService->productExists($id)) return $this->notFoundError();
+        $product = $this->productService->getProduct($id);
+        if (!$this->hasAuth($product->store_id) && !Auth::user()->isOfType('admin')) return $this->notFoundError();
+        $product = $this->productService->updateProduct($id, $request);
+        return new ProductResource($product);
     }
 
     /**
