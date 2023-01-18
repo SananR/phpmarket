@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Services\OrderService;
+use App\Jobs\OrderProductJob;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -37,7 +38,7 @@ class CreateOrderJob implements ShouldQueue
         //Add the products
         if (empty($this->products)) return;
         foreach ($this->products as $id) {
-            CreateUpdateOrderProductJob::dispatch($this->orderService, $order->id, $id, 1);
+            OrderProductJob::dispatch($this->orderService, $order->id, $id, 1);
         }
     }
 }

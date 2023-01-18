@@ -17,12 +17,9 @@ abstract class BaseRepository
     protected function __construct($modelORM) {
         $this->modelORM = $modelORM;
     }
-    public function getWhere($conditions) {
-        $query = $this->modelORM;
-        foreach ($conditions as $key => $value) {
-            $query = $query->where($key, $value);
-        }
-        return $query->all();
+    public function where($condition, $value) {
+        $query = $this->modelORM::where($condition, $value);
+        return $query->get();
     }
     public function getAll() {
         return $this->modelORM::all();
@@ -35,7 +32,7 @@ abstract class BaseRepository
     }
     public function update($id, $request) {
         $model = $this->modelORM::where('id', $id)->get()->first();
-        $model->update($request == null ? [] : $request->all());
+        $model->update($request == null ? [] : $request);
         return $model;
     }
 }

@@ -15,10 +15,6 @@ class OrderService extends BaseService
         $this->orderProductRepository = $orderProductRepository;
     }
 
-    public function getOrderProducts($order_id) {
-
-    }
-
     public function getOrder($order_id) {
         return parent::get($order_id);
     }
@@ -27,9 +23,14 @@ class OrderService extends BaseService
         return $this->repository->create($user_id, "PENDING");
     }
 
+    public function deleteOrderProduct($id) {
+        $this->orderProductRepository->delete($id);
+    }
+
     public function getOrderProduct($order_id, $product_id) {
-        foreach ($this->repository->getById($order_id)->products() as $product) {
-            if ($product == $product_id) return $product;
+        $products = $this->orderProductRepository->getByOrder($order_id);
+        foreach ($products as $product) {
+            if ($product->product_id == $product_id) return $product;
         }
         return null;
     }

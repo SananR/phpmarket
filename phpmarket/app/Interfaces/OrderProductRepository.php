@@ -14,7 +14,7 @@ abstract class OrderProductRepository extends BaseRepository
 
     public function getByOrder($order_id) {
         $arr = [];
-        foreach (parent::getWhere(['order_id'=>$order_id]) as $orderProduct) {
+        foreach ($this->where('order_id', $order_id) as $orderProduct) {
             $arr[] = $orderProduct;
         }
         return $arr;

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\OrderCreateRequest;
 use App\Http\Requests\OrderProductRequest;
 use App\Jobs\CreateOrderJob;
-use App\Jobs\CreateUpdateOrderProductJob;
+use App\Jobs\OrderProductJob;
 use App\Models\Order;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
@@ -44,7 +44,7 @@ class OrderController extends Controller
 
     public function product(OrderProductRequest $request) {
         $request->validated($request->all());
-        $this->dispatch(new CreateUpdateOrderProductJob($this->orderService, $request->order_id, $request->product_id, $request->quantity));
+        $this->dispatch(new OrderProductJob($this->orderService, $request->order_id, $request->product_id, $request->quantity));
     }
 
     /**

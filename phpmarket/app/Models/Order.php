@@ -30,10 +30,9 @@ class Order extends Model
 
 
     public function hasProduct($product_id) {
-        $products = OrderProduct::where('order_id', $this->id)::all();
+        $products = OrderProduct::where('order_id', $this->id)->get()->all();
         foreach ($products as $product) {
-            var_dump($product);
-            if ($product->id == $product_id) return $product;
+            if ($product->product_id == $product_id) return $product;
         }
         return false;
     }
@@ -41,11 +40,6 @@ class Order extends Model
     public function user() {
         return $this->belongsTo(User::class);
     }
-
-    public function products() {
-        return $this->hasManyThrough(Product::class,OrderProduct::class);
-    }
-
 
 
 

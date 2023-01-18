@@ -9,7 +9,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class CreateUpdateOrderProductJob implements ShouldQueue
+class OrderProductJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -35,8 +35,13 @@ class CreateUpdateOrderProductJob implements ShouldQueue
         //Already has (update quantity)
         if ($order->hasProduct($this->product_id)) {
             $orderProduct = $this->orderService->getOrderProduct($this->order_id, $this->product_id);
+            //deletion
+            if ($this->quantity <= 0) {
+                $this->orderService->deleteOrderProduct($orderProduct->id);
+                return;
+            }
             $this->orderService->setProductQuantity($orderProduct->id, $this->quantity);
-        } else {
+        } else if ($this->quantity > 0) {
             //Create the order
             $this->orderService->createOrderProduct($this->order_id, $this->product_id, $this->quantity);
         }
