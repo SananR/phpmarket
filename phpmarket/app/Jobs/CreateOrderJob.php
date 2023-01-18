@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\PaymentStatus;
 use App\Services\OrderService;
 use App\Services\ProductService;
 
@@ -44,7 +45,8 @@ class CreateOrderJob extends BaseJob
         foreach ($this->products as $id) {
            if (!$this->productService->exists($id)) return false;
         }
-        if (strcmp($this->payment_status, "PENDING") != 0 && strcmp($this->payment_status, "COMPLETED") != 0) return false;
+        $ps = PaymentStatus::from($this->payment_status);
+        if ($ps != PaymentStatus::PENDING && $ps != PaymentStatus::COMPLETED) return false;
         return true;
     }
 }

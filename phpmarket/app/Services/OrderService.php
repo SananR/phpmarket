@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Interfaces\OrderProductRepository;
 use App\Interfaces\OrderRepository;
+use App\Models\PaymentStatus;
 
 class OrderService extends BaseService
 {
@@ -20,7 +21,7 @@ class OrderService extends BaseService
     }
 
     public function createOrder($user_id) {
-        return $this->repository->create($user_id, "PENDING");
+        return $this->repository->create($user_id, PaymentStatus::PENDING->value);
     }
 
     public function deleteOrderProduct($id) {
