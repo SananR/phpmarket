@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\StoreUserController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use Laravel\Fortify\Http\Controllers\RegisteredUserController;
@@ -18,29 +17,31 @@ use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 $limiter = config('fortify.limiters.login');
 
 //Public
-Route::post('/register', [RegisteredUserController::class, 'store'])
-    ->middleware(['api']);
+Route::post('/register', [RegisteredUserController::class, 'store']);
 
-Route::post('/login', [AuthenticatedSessionController::class, 'store'])
-    ->middleware(['api']);
+Route::post('/login', [AuthenticatedSessionController::class, 'store']);
 
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
-    ->middleware(['auth:sanctum','api'])->name('logout');
+    ->middleware(['auth:sanctum'])->name('logout');
 
 //Protected
-Route::group(['middleware'=>['auth:sanctum', 'api']], function() {
+Route::group(['middleware'=>['auth:sanctum']], function() {
     Route::apiResource('/store', \App\Http\Controllers\StoreController::class);
     /*
      * Store Products
      */
-    Route::get('/product/{id}', [\App\Http\Controllers\ProductController::class, 'show']);
-    Route::put('/product/{id}', [\App\Http\Controllers\ProductController::class, 'update']);
-    Route::patch('/product/{id}', [\App\Http\Controllers\ProductController::class, 'update']);
-    Route::post('/product', [\App\Http\Controllers\ProductController::class, 'store']);
-    Route::delete('/product', [\App\Http\Controllers\ProductController::class, 'delete']);
+    Route::group(['prefix'=>'products', 'as'=>'products'], function() {
+        Route::post('/', [\App\Http\Controllers\ProductController::class, 'store']);
+        Route::delete('/', [\App\Http\Controllers\ProductController::class, 'delete']);
+        Route::group(['prefix' => '{productId}', 'as' => '{productId}'], function() {
+            Route::get('/', [\App\Http\Controllers\ProductController::class, 'show']);
+            Route::put('/', [\App\Http\Controllers\ProductController::class, 'update']);
+            Route::patch('/', [\App\Http\Controllers\ProductController::class, 'update']);
+        });
+    });
     /*
      * Orders
      */
-    Route::apiResource('/order', \App\Http\Controllers\OrderController::class);
-    Route::post('/order/product', [\App\Http\Controllers\OrderController::class, 'product']);
+    Route::apiResource('/orders', \App\Http\Controllers\OrderController::class);
+    Route::post('/orders/products', [\App\Http\Controllers\OrderController::class, 'product']);
 });
