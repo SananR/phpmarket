@@ -2,9 +2,10 @@
 
 namespace App\Services;
 
-use App\Interfaces\OrderProductRepository;
-use App\Interfaces\OrderRepository;
+use App\Interfaces\BaseService;
 use App\Models\PaymentStatus;
+use App\Repositories\OrderProductRepository;
+use App\Repositories\OrderRepository;
 
 class OrderService extends BaseService
 {

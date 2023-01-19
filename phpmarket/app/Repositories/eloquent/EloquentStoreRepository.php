@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\eloquent;
 
-use App\Interfaces\StoreRepository;
 use App\Models\Store;
+use App\Repositories\StoreRepository;
 
 class EloquentStoreRepository extends StoreRepository
 {

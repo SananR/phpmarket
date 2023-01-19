@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\eloquent;
 
-use App\Interfaces\UserRepository;
 use App\Models\User;
+use App\Repositories\UserRepository;
 
 class EloquentUserRepository extends UserRepository
 {

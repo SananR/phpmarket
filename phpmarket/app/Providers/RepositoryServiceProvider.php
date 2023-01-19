@@ -2,16 +2,16 @@
 
 namespace App\Providers;
 
-use App\Interfaces\OrderProductRepository;
-use App\Interfaces\OrderRepository;
-use App\Interfaces\StoreRepository;
-use App\Interfaces\UserRepository;
-use App\Interfaces\ProductRepository;
-use App\Repositories\EloquentOrderProductRepository;
-use App\Repositories\EloquentOrderRepository;
-use App\Repositories\EloquentStoreRepository;
-use App\Repositories\EloquentUserRepository;
-use App\Repositories\EloquentProductRepository;
+use App\Repositories\eloquent\EloquentOrderProductRepository;
+use App\Repositories\eloquent\EloquentOrderRepository;
+use App\Repositories\eloquent\EloquentProductRepository;
+use App\Repositories\eloquent\EloquentStoreRepository;
+use App\Repositories\eloquent\EloquentUserRepository;
+use App\Repositories\OrderProductRepository;
+use App\Repositories\OrderRepository;
+use App\Repositories\ProductRepository;
+use App\Repositories\StoreRepository;
+use App\Repositories\UserRepository;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider

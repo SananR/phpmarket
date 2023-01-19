@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\eloquent;
 
-use App\Interfaces\OrderRepository;
 use App\Models\Order;
+use App\Repositories\OrderRepository;
 
 class EloquentOrderRepository extends OrderRepository
 {

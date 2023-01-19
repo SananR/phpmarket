@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProductCreateRequest;
-use App\Http\Requests\ProductUpdateRequest;
+use App\Http\HttpResponses;
+use App\Http\Requests\product\ProductCreateRequest;
+use App\Http\Requests\product\ProductUpdateRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
-use App\Models\Store;
-use App\Services\StoreService;
-use App\Traits\HttpResponses;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Services\ProductService;
+use App\Services\StoreService;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -59,12 +57,6 @@ class ProductController extends Controller
         return new ProductResource($product);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Product $product)
     {
         if (!Auth::user()->isOfType('admin') && !$this->hasAuth($product->store_id)) return $this->authError();

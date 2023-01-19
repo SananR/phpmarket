@@ -1,8 +1,6 @@
 <?php
 
-namespace App\Services;
-
-use App\Interfaces\BaseRepository;
+namespace App\Interfaces;
 
 abstract class BaseService {
 

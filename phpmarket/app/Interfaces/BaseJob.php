@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Interfaces;
 
 use App\Exceptions\ValidationException;
 use Illuminate\Bus\Queueable;

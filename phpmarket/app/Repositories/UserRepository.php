@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Interfaces;
+namespace App\Repositories;
+
+use App\Interfaces\BaseRepository;
 
 abstract class UserRepository extends BaseRepository
 {

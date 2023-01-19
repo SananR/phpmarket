@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
-use App\Interfaces\StoreRepository;
-use App\Interfaces\UserRepository;
-use App\Repositories\EloquentUserRepository;
+use App\Interfaces\BaseService;
+use App\Repositories\StoreRepository;
+use App\Repositories\UserRepository;
 
 class StoreService extends BaseService
 {

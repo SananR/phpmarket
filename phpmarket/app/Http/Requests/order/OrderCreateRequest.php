@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\order;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreUpdateRequest extends FormRequest
+class OrderCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,9 @@ class StoreUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'=>['max:30'],
-            'address'=>['max:60', 'unique:App\Models\Store'],
-            'longitude'=>['decimal:6'],
-            'latitude'=>['decimal:6'],
+            'user_id'=>['required','max:30', 'exists:users,id'],
+            'products'=>['present', 'array', 'min:1'],
+            'products.*'=>['sometimes','numeric', 'exists:products,id'],
         ];
     }
 }

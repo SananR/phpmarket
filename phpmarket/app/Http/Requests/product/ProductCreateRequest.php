@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\product;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProductUpdateRequest extends FormRequest
+class ProductCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,10 @@ class ProductUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'=>['max:60'],
-            'bin'=>['numeric','unique:App\Models\Product,id,'.$this->route()->id],
-            'quantity'=>['digits_between:0,999999'],
+            'store_id'=>['required','max:30', 'exists:stores,id'],
+            'name'=>['required','max:60'],
+            'bin'=>['required','numeric','unique:App\Models\Product'],
+            'quantity'=>['required','digits_between:0,999999'],
         ];
     }
 }
