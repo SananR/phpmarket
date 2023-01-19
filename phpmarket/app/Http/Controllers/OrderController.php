@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\OrderCreateRequest;
-use App\Http\Requests\OrderProductRequest;
+use App\Http\Requests\order\OrderCreateRequest;
+use App\Http\Requests\order\OrderProductRequest;
 use App\Jobs\CreateOrderJob;
 use App\Jobs\OrderProductJob;
 use App\Models\Order;

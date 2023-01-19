@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Traits\HttpResponses;
+use App\Http\HttpResponses;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

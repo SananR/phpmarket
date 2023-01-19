@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Interfaces\BaseJob;
 use App\Models\PaymentStatus;
 use App\Services\OrderService;
 use App\Services\ProductService;

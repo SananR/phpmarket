@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreCreateRequest;
-use App\Http\Requests\StoreUpdateRequest;
+use App\Http\HttpResponses;
+use App\Http\Requests\store\StoreCreateRequest;
+use App\Http\Requests\store\StoreUpdateRequest;
 use App\Http\Resources\StoreResource;
 use App\Models\Store;
 use App\Services\StoreService;
-use App\Traits\HttpResponses;
 use Illuminate\Support\Facades\Auth;
 
 class StoreController extends Controller
